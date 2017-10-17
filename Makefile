@@ -47,12 +47,13 @@ push:
 logs:
 	@docker-compose logs -f -t --tail=100
 
-## ntpctl          : Show ntpd sync status with ntpctl
-.PHONY : ntpctl
-ntpctl:
-	@docker exec -it chainpoint-ntpd ntpctl -s all
-
 ## ps              : View running processes
 .PHONY : ps
 ps:
 	@docker-compose ps
+
+## status          : Show docker ntpd status
+.PHONY : status
+status:
+	@echo ''
+	@docker exec -it chainpoint-ntpd ntpctl -s all
