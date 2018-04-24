@@ -34,14 +34,9 @@ restart: down up
 .PHONY : build
 build:
 	docker build -t chainpoint-ntpd .
-	docker tag chainpoint-ntpd gcr.io/chainpoint-registry/chainpoint-ntpd
+	docker tag chainpoint-ntpd gcr.io/chainpoint-registry/github-chainpoint-chainpoint-ntpd
 	docker container prune -f
 	docker-compose build
-
-## push            : Push Docker images to public google container registry
-.PHONY : push
-push:
-	gcloud docker -- push gcr.io/chainpoint-registry/chainpoint-ntpd
 
 ## logs            : Tail ntpd logs
 .PHONY : logs
