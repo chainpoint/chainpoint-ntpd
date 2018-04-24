@@ -3,7 +3,7 @@ version: '2.1'
 services:
   chainpoint-ntpd:
     build: .
-    image: quay.io/chainpoint/chainpoint-ntpd:latest
+    image: gcr.io/chainpoint-registry/chainpoint-ntpd:latest
     container_name: chainpoint-ntpd
     hostname: ntpd
     restart: on-failure:2

@@ -8,7 +8,7 @@ SHELL := /bin/bash
 ROOT_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
 # Specify the binary dependencies
-REQUIRED_BINS := docker docker-compose
+REQUIRED_BINS := docker docker-compose gcloud
 $(foreach bin,$(REQUIRED_BINS),\
     $(if $(shell command -v $(bin) 2> /dev/null),$(),$(error Please install `$(bin)` first!)))
 
@@ -33,14 +33,10 @@ restart: down up
 ## build           : Build ntpd image
 .PHONY : build
 build:
-	docker run --rm -w /usr/src/app -v ~/.docker:/root/.docker -v /var/run/docker.sock:/var/run/docker.sock -v "$(PWD)":/usr/src/app jizhilong/docker-make:latest docker-make --no-push
+	docker build -t chainpoint-ntpd .
+	docker tag chainpoint-ntpd gcr.io/chainpoint-registry/github-chainpoint-chainpoint-ntpd
 	docker container prune -f
 	docker-compose build
-
-## push            : Push ntpd image
-.PHONY : push
-push:
-	docker run --rm -w /usr/src/app -v ~/.docker:/root/.docker -v /var/run/docker.sock:/var/run/docker.sock -v "$(PWD)":/usr/src/app jizhilong/docker-make:latest docker-make
 
 ## logs            : Tail ntpd logs
 .PHONY : logs
